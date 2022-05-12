@@ -27,27 +27,48 @@ public class EchoerOld extends Thread {
                 System.out.println("Received client input: " + echoString);
 
                 if(echoString == 1) {
-                    System.out.println("youve started the sim");
+                    System.out.println("You've started the sim and have been issued your initial kit");
+                    Database db = new Database();
+
+                    Database.updateAmmo();
+                    Database.updateRations();
+                    Database.updateWater();
 
                     Database.showStatus();
-                    Database.updateLocation();
-
-
 
 
                 }
 
-                try {
+                if(echoString == 2) {
+                    Database.showAmmo();
+                }
+                if(echoString == 3) {
+                    Database.showRations();
+                }
+                if(echoString == 4) {
+                    Database.showWater();
+                }
+                if(echoString == 5) {
+                    Database.showLocation();
 
+                }
+                if(echoString == 6) {
+                    Database.updateLocation();
+                    DatabaseExerciseArea.updateExerciseLocation();
+                    Database.showLocation();
+                }
+                if (echoString == 0) {
+                    break;
+                }
+
+                try {
 
                 }
                 catch (Exception e) {
                     System.err.println(e.getClass().getName() + ": " + e.getMessage());
                     System.exit(0);
                 }
-                if (echoString == 0) {
-                    break;
-                }
+
 //                try {
 //                    Thread.sleep(15000);
 //
