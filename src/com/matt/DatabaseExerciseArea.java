@@ -7,14 +7,16 @@ public class DatabaseExerciseArea {
     public static final String TABLE_EXERCISE_AREA = "exercise_area";
 
     public static final String COLUMN_TROOP_ID = "troop_id";
+
     public static final String COLUMN_EXERCISE_LOCATION = "exercise_location";
 
+    public static final String PATH_TO_DATABASE = "jdbc:sqlite:/Users/matt/Desktop/CAPSTONE_1/capstone_server-master/server.db";
 
 
     private Connection connect() {
         // SQLite connection string
         // where the database lives on my system
-        String url = "jdbc:sqlite:/Users/matt/Documents/development/EchoServer/server.db";
+        String url = PATH_TO_DATABASE;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -24,38 +26,6 @@ public class DatabaseExerciseArea {
         return conn;
     }
 
-//    public static void joiner() {
-//        try {
-//            // SQL statement to update location of troop at the minute it is set to 100
-//            Connection conn = DriverManager.getConnection("jdbc:sqlite:/Users/matt/Documents/development/EchoServer/server.db");
-//            Statement statement = conn.createStatement();
-//            statement.execute("INSERT INTO exercise_area SELECT id, location FROM troop WHERE id");
-////                    "INSERT INTO exercise_area SELECT id, location FROM troop WHERE id");
-//            statement.close();
-//            conn.close();
-//        }
-//        catch (SQLException e) {
-//            System.out.println("Something went wrong: " + e.getMessage());
-//        }
-//    }
-
-
-//    public static void joiner() {
-//        try {
-//            // SQL statement to update location of troop at the minute it is set to 100
-//            Connection conn = DriverManager.getConnection("jdbc:sqlite:/Users/matt/Documents/development/EchoServer/server.db");
-//            Statement statement = conn.createStatement();
-//            statement.execute("INSERT INTO exercise_area SELECT id, location FROM troop WHERE id");
-//            statement.close();
-//            conn.close();
-//        }
-//        catch (SQLException e) {
-//            System.out.println("Something went wrong: " + e.getMessage());
-//        }
-//    }
-//
-//
-//
     public void insert(int troop_id, int exercise_location) {
         String sql = "INSERT INTO exercise_area(troop_id, exercise_location) VALUES(?,?)";
         try (Connection conn = this.connect();
@@ -68,25 +38,22 @@ public class DatabaseExerciseArea {
         }
     }
 
-
     public static void updateExerciseLocation() {
         try {
             // SQL statement to update location of troop at the minute it is set to 100
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:/Users/matt/Documents/development/EchoServer/server.db");
+            Connection conn = DriverManager.getConnection(PATH_TO_DATABASE);
             Statement statement = conn.createStatement();
             statement.execute("UPDATE " + TABLE_EXERCISE_AREA + " SET " + COLUMN_EXERCISE_LOCATION + "=100 + exercise_location");
+
             statement.close();
             conn.close();
         }
         catch (SQLException e) {
-            System.out.println("Something went wrong: " + e.getMessage());
+            int SQLErrorCode = e.getErrorCode();
+            if(SQLErrorCode == 19) {
+                System.out.println("You've completed the game "  + "in " + EchoerOld.instanceCounter + " moves " + "Exiting...");
+                System.exit(0);
+            }
         }
     }
-
-
-
-
-
-
-
 }
