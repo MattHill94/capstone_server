@@ -21,8 +21,10 @@ public class Main {
         dbea.insert(3,0);
         dbea.insert(4,0);
 
+
+
         // Server will start on port 6000 can be changed if this port is in use
-        try(ServerSocket serverSocket = new ServerSocket(6001)) {
+        try(ServerSocket serverSocket = new ServerSocket(6002)) {
             while(true) {
                 // server started waiting for client to connect when connected prints new client has connected
                 new EchoerOld(serverSocket.accept()).start();
